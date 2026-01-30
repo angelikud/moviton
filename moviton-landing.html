@@ -1,0 +1,2480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovitOn — P2P Delivery Revolution</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1E3A5F;
+            --primary-hover: #2D4A6F;
+            --secondary: #E07A5F;
+            --success: #81B29A;
+            --background: #FAFAFA;
+            --surface: #FFFFFF;
+            --text: #1A1A2E;
+            --muted: #6B7280;
+            --border: #E5E7EB;
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --shadow-primary: 0 4px 14px rgba(30, 58, 95, 0.25);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.015;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* HEADER */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 250, 250, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: var(--shadow-soft);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -1px;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .lang-switch {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: transparent;
+            font-size: 14px;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lang-switch:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 28px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.35);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-wallet {
+            background: linear-gradient(135deg, var(--primary) 0%, #2D5A87 100%);
+            color: white;
+            box-shadow: var(--shadow-primary);
+        }
+
+        .btn-wallet:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.4);
+        }
+
+        .btn-wallet svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* HERO */
+        .hero {
+            padding: 160px 0 100px;
+            background: linear-gradient(180deg, var(--background) 0%, #F0F4F8 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(30, 58, 95, 0.03) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(224, 122, 95, 0.04) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 60px;
+            align-items: start;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            padding-top: 40px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(30, 58, 95, 0.08);
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            color: var(--text);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease 0.1s backwards;
+        }
+
+        .hero h1 span {
+            color: var(--secondary);
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--muted);
+            max-width: 480px;
+            margin-bottom: 40px;
+            line-height: 1.7;
+            animation: fadeInUp 0.6s ease 0.2s backwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+            animation: fadeInUp 0.6s ease 0.3s backwards;
+        }
+
+        .hero-buttons .btn {
+            padding: 18px 36px;
+            font-size: 16px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 48px;
+            animation: fadeInUp 0.6s ease 0.4s backwards;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        /* Presale Widget */
+        .presale-widget {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            box-shadow: var(--shadow-medium);
+            animation: fadeInRight 0.8s ease 0.2s backwards;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .presale-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .presale-live {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .presale-live::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--secondary);
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        .presale-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .presale-prices {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .price-box {
+            padding: 16px;
+            background: var(--background);
+            border-radius: var(--radius-md);
+        }
+
+        .price-label {
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .price-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .price-value.listing {
+            color: var(--muted);
+            text-decoration: line-through;
+            font-size: 20px;
+        }
+
+        .discount-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--secondary);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            margin-left: 8px;
+        }
+
+        .presale-progress {
+            margin-bottom: 24px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .progress-text strong {
+            color: var(--text);
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: var(--background);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 67%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--success) 100%);
+            border-radius: 100px;
+            animation: progressAnim 2s ease;
+        }
+
+        @keyframes progressAnim {
+            from { width: 0%; }
+        }
+
+        .presale-timer {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.05) 0%, rgba(129, 178, 154, 0.05) 100%);
+            border-radius: var(--radius-md);
+        }
+
+        .timer-label {
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .timer-value {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .timer-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+
+        .timer-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .timer-unit {
+            font-size: 11px;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        .timer-separator {
+            font-size: 28px;
+            color: var(--border);
+            line-height: 1;
+        }
+
+        .wallet-btn-container {
+            margin-bottom: 16px;
+        }
+
+        .wallet-btn-container .btn {
+            width: 100%;
+            padding: 18px;
+            font-size: 16px;
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .payment-method {
+            padding: 8px 16px;
+            background: var(--background);
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .payment-method:hover, .payment-method.active {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: white;
+        }
+
+        /* TICKER */
+        .ticker {
+            background: var(--primary);
+            padding: 12px 0;
+            overflow: hidden;
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: ticker 30s linear infinite;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            padding: 0 40px;
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .ticker-item svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--secondary);
+        }
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* PARTNERS */
+        .partners {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .partners-title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 32px;
+        }
+
+        .partners-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .partner-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--muted);
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+        }
+
+        .partner-logo:hover {
+            opacity: 0.7;
+        }
+
+        /* SECTIONS */
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 64px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            color: var(--text);
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* PROBLEM/SOLUTION */
+        .problem-section {
+            padding: 120px 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 100px 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .comparison-card {
+            padding: 40px;
+            border-radius: var(--radius-xl);
+            height: 100%;
+        }
+
+        .comparison-card.problem {
+            background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
+            border: 1px solid #FECACA;
+        }
+
+        .comparison-card.solution {
+            background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+            border: 1px solid #A7F3D0;
+        }
+
+        .comparison-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 28px;
+        }
+
+        .comparison-card.problem .comparison-icon {
+            background: #FEE2E2;
+        }
+
+        .comparison-card.solution .comparison-icon {
+            background: #D1FAE5;
+        }
+
+        .comparison-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .comparison-card p {
+            font-size: 16px;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        .comparison-stats {
+            display: flex;
+            gap: 24px;
+        }
+
+        .comp-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comp-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .comparison-card.problem .comp-stat-value {
+            color: #DC2626;
+        }
+
+        .comparison-card.solution .comp-stat-value {
+            color: #059669;
+        }
+
+        .comp-stat-label {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .comparison-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .comparison-arrow svg {
+            width: 48px;
+            height: 48px;
+            color: var(--primary);
+        }
+
+        .comparison-arrow span {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* HOW IT WORKS */
+        .how-it-works {
+            padding: 120px 0;
+            background: var(--surface);
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .step-card {
+            position: relative;
+            padding: 40px;
+            background: var(--background);
+            border-radius: var(--radius-xl);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 40px;
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.1) 0%, rgba(129, 178, 154, 0.1) 100%);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin-bottom: 24px;
+            margin-top: 16px;
+        }
+
+        .step-card h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .step-card p {
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* CALCULATOR */
+        .calculator-section {
+            padding: 120px 0;
+            background: linear-gradient(180deg, var(--background) 0%, #E8EEF4 100%);
+        }
+
+        .calculator-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .calculator-card {
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            padding: 48px;
+            box-shadow: var(--shadow-medium);
+        }
+
+        .calc-inputs {
+            display: grid;
+            grid-template-columns: 1fr 60px 1fr 120px auto;
+            gap: 16px;
+            align-items: end;
+            margin-bottom: 40px;
+        }
+
+        .calc-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .calc-input-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .calc-input-group select {
+            padding: 16px 20px;
+            font-size: 16px;
+            font-family: 'DM Sans', sans-serif;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            background: white;
+            color: var(--text);
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .calc-input-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .calc-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+            font-size: 24px;
+            padding-bottom: 8px;
+        }
+
+        .calc-btn {
+            padding: 16px 32px;
+        }
+
+        .calc-results {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+        }
+
+        .calc-result-card {
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .calc-result-card.competitor {
+            background: var(--background);
+        }
+
+        .calc-result-card.moviton {
+            background: linear-gradient(135deg, var(--primary) 0%, #2D5A87 100%);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: var(--shadow-primary);
+        }
+
+        .result-logo {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            opacity: 0.7;
+        }
+
+        .calc-result-card.moviton .result-logo {
+            opacity: 1;
+        }
+
+        .result-price {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .calc-result-card.moviton .result-price {
+            color: white;
+        }
+
+        .result-time {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .savings-badge {
+            display: inline-block;
+            margin-top: 48px;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, rgba(129, 178, 154, 0.15) 0%, rgba(30, 58, 95, 0.1) 100%);
+            border-radius: 100px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .savings-badge span {
+            color: var(--success);
+        }
+
+        /* AUDIENCES */
+        .audiences {
+            padding: 120px 0;
+            background: var(--surface);
+        }
+
+        .audiences-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .audience-card {
+            padding: 48px;
+            border-radius: var(--radius-xl);
+            background: var(--background);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .audience-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .audience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .audience-card.senders::before {
+            background: var(--primary);
+        }
+
+        .audience-card.travelers::before {
+            background: var(--secondary);
+        }
+
+        .audience-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+
+        .audience-card.senders .audience-icon {
+            background: rgba(30, 58, 95, 0.1);
+        }
+
+        .audience-card.travelers .audience-icon {
+            background: rgba(224, 122, 95, 0.1);
+        }
+
+        .audience-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .audience-card > p {
+            font-size: 16px;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        .audience-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+
+        .audience-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            font-size: 15px;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .audience-features li:last-child {
+            border-bottom: none;
+        }
+
+        .audience-features li svg {
+            width: 20px;
+            height: 20px;
+            color: var(--success);
+            flex-shrink: 0;
+        }
+
+        .audience-card.senders .btn {
+            background: var(--primary);
+        }
+
+        .audience-card.travelers .btn {
+            background: var(--secondary);
+            box-shadow: 0 4px 14px rgba(224, 122, 95, 0.25);
+        }
+
+        /* SECURITY */
+        .security {
+            padding: 120px 0;
+            background: linear-gradient(180deg, var(--primary) 0%, #152A42 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .security::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .security .section-header {
+            position: relative;
+            z-index: 1;
+        }
+
+        .security .section-label {
+            color: var(--secondary);
+        }
+
+        .security .section-title {
+            color: white;
+        }
+
+        .security .section-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .security-features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .security-feature {
+            text-align: center;
+            padding: 40px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .security-feature:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .security-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .security-feature h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .security-feature p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        /* TOKENOMICS */
+        .tokenomics {
+            padding: 120px 0;
+            background: var(--surface);
+        }
+
+        .tokenomics-grid {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .token-chart {
+            position: relative;
+        }
+
+        .donut-chart {
+            width: 100%;
+            max-width: 360px;
+            margin: 0 auto;
+        }
+
+        .token-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 32px;
+        }
+
+        .token-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .token-detail {
+            padding: 20px;
+            background: var(--background);
+            border-radius: var(--radius-md);
+        }
+
+        .token-detail-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .token-detail-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .token-utilities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .utility-tag {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.08) 0%, rgba(129, 178, 154, 0.08) 100%);
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .token-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 24px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        /* TEAM */
+        .team {
+            padding: 120px 0;
+            background: var(--background);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+
+        .team-card {
+            text-align: center;
+            padding: 40px 24px;
+            background: var(--surface);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .team-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+        }
+
+        .team-card h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .team-role {
+            font-size: 14px;
+            color: var(--secondary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .team-exp {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .team-social {
+            margin-top: 16px;
+        }
+
+        .team-social a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: var(--background);
+            border-radius: 50%;
+            color: var(--muted);
+            transition: all 0.2s ease;
+        }
+
+        .team-social a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ROADMAP */
+        .roadmap {
+            padding: 120px 0;
+            background: var(--surface);
+        }
+
+        .roadmap-timeline {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            position: relative;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 60px;
+            right: 60px;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+        }
+
+        .roadmap-item {
+            position: relative;
+        }
+
+        .roadmap-dot {
+            width: 24px;
+            height: 24px;
+            background: var(--surface);
+            border: 4px solid var(--border);
+            border-radius: 50%;
+            margin: 28px auto 24px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .roadmap-item.completed .roadmap-dot {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .roadmap-item.active .roadmap-dot {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 8px rgba(30, 58, 95, 0.15);
+        }
+
+        .roadmap-quarter {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .roadmap-content {
+            padding: 24px;
+            background: var(--background);
+            border-radius: var(--radius-lg);
+            margin-top: 8px;
+        }
+
+        .roadmap-content ul {
+            list-style: none;
+        }
+
+        .roadmap-content li {
+            padding: 8px 0;
+            font-size: 14px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .roadmap-content li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--border);
+            border-radius: 50%;
+        }
+
+        .roadmap-item.completed li::before {
+            background: var(--success);
+        }
+
+        /* FAQ */
+        .faq {
+            padding: 120px 0;
+            background: var(--background);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: none;
+            border: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--primary);
+        }
+
+        .faq-question svg {
+            width: 24px;
+            height: 24px;
+            color: var(--muted);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-question svg {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 32px 24px;
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--text);
+            color: white;
+            padding: 80px 0 40px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr repeat(3, 1fr);
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .footer-logo span {
+            color: var(--secondary);
+        }
+
+        .footer-desc {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-social a {
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.2s ease;
+        }
+
+        .footer-social a:hover {
+            background: var(--secondary);
+            transform: translateY(-4px);
+        }
+
+        .footer-column h4 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-legal a {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-legal a:hover {
+            color: white;
+        }
+
+        /* STICKY BAR */
+        .sticky-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 16px 0;
+            z-index: 999;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .sticky-bar.visible {
+            transform: translateY(0);
+        }
+
+        .sticky-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sticky-price {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .sticky-current {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .sticky-old {
+            font-size: 16px;
+            color: var(--muted);
+            text-decoration: line-through;
+        }
+
+        .sticky-discount {
+            padding: 6px 12px;
+            background: var(--secondary);
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+        }
+
+        .sticky-timer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .sticky-timer strong {
+            font-size: 18px;
+            color: var(--text);
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .presale-widget {
+                max-width: 500px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-arrow {
+                transform: rotate(90deg);
+                padding: 20px 0;
+            }
+
+            .steps-container,
+            .security-features,
+            .team-grid,
+            .roadmap-timeline {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tokenomics-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 120px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .hero-stats {
+                flex-wrap: wrap;
+                gap: 24px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .calc-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .calc-arrow {
+                transform: rotate(90deg);
+            }
+
+            .calc-results {
+                grid-template-columns: 1fr;
+            }
+
+            .calc-result-card.moviton {
+                transform: none;
+            }
+
+            .audiences-grid,
+            .steps-container,
+            .security-features,
+            .team-grid,
+            .roadmap-timeline {
+                grid-template-columns: 1fr;
+            }
+
+            .roadmap-timeline::before {
+                display: none;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .sticky-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .sticky-price {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Movit<span>On</span></a>
+                <div class="nav-links">
+                    <a href="#how-it-works">How it Works</a>
+                    <a href="#token">Token</a>
+                    <a href="#team">Team</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+                <div class="nav-right">
+                    <button class="lang-switch">🌐 EN</button>
+                    <button class="btn btn-wallet">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M22 10H18C16.8954 10 16 10.8954 16 12C16 13.1046 16.8954 14 18 14H22"/></svg>
+                        Connect Wallet
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="ticker" style="margin-top: 80px;">
+        <div class="ticker-content">
+            <div class="ticker-item"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> JOIN 2,000+ EARLY SUPPORTERS</div>
+            <div class="ticker-item"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> PRESALE LIVE NOW</div>
+            <div class="ticker-item"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> -46% BEFORE TGE</div>
+            <div class="ticker-item"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> JOIN 2,000+ EARLY SUPPORTERS</div>
+            <div class="ticker-item"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg> PRESALE LIVE NOW</div>
+            <div class="ticker-item"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> -46% BEFORE TGE</div>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">Presale Stage 2 — Limited Time</div>
+                    <h1>Deliver anything.<br>Anywhere.<br><span>4× cheaper.</span></h1>
+                    <p class="hero-subtitle">Travelers become couriers. Blockchain-secured escrow. AI-powered compliance. The future of P2P delivery is here.</p>
+                    <div class="hero-buttons">
+                        <a href="#calculator" class="btn btn-primary">📦 Send Package</a>
+                        <a href="#travelers" class="btn btn-secondary">✈️ Deliver & Earn</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-value">$201K</span>
+                            <span class="stat-label">Raised</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">2,000+</span>
+                            <span class="stat-label">Supporters</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-value">73%</span>
+                            <span class="stat-label">Avg. Savings</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="presale-widget">
+                    <div class="presale-header">
+                        <div class="presale-live">Live</div>
+                        <div class="presale-title">$MVON Presale</div>
+                    </div>
+                    <div class="presale-prices">
+                        <div class="price-box">
+                            <div class="price-label">Current Price</div>
+                            <div class="price-value">$0.008</div>
+                        </div>
+                        <div class="price-box">
+                            <div class="price-label">Listing Price</div>
+                            <div class="price-value listing">$0.015</div>
+                            <span class="discount-badge">-46%</span>
+                        </div>
+                    </div>
+                    <div class="presale-progress">
+                        <div class="progress-header">
+                            <span class="progress-text"><strong>$201,000</strong> raised</span>
+                            <span class="progress-text">Goal: <strong>$300,000</strong></span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                    <div class="presale-timer">
+                        <div class="timer-label">Price increases in</div>
+                        <div class="timer-value">
+                            <div class="timer-block">
+                                <span class="timer-number" id="days">06</span>
+                                <span class="timer-unit">Days</span>
+                            </div>
+                            <span class="timer-separator">:</span>
+                            <div class="timer-block">
+                                <span class="timer-number" id="hours">11</span>
+                                <span class="timer-unit">Hours</span>
+                            </div>
+                            <span class="timer-separator">:</span>
+                            <div class="timer-block">
+                                <span class="timer-number" id="minutes">43</span>
+                                <span class="timer-unit">Min</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wallet-btn-container">
+                        <button class="btn btn-wallet">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M22 10H18C16.8954 10 16 10.8954 16 12C16 13.1046 16.8954 14 18 14H22"/></svg>
+                            Connect Wallet
+                        </button>
+                    </div>
+                    <div class="payment-methods">
+                        <div class="payment-method active">ETH</div>
+                        <div class="payment-method">USDT</div>
+                        <div class="payment-method">BNB</div>
+                        <div class="payment-method">Card</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="partners">
+        <div class="container">
+            <div class="partners-title">Ideal for</div>
+            <div class="partners-logos">
+                <div class="partner-logo">🌍 Expats</div>
+                <div class="partner-logo">💼 Freelancers</div>
+                <div class="partner-logo">🏪 Small Business</div>
+                <div class="partner-logo">✈️ Travelers</div>
+                <div class="partner-logo">🛒 E-commerce</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">The Problem & Solution</span>
+                <h2 class="section-title">International delivery will be as simple as sending a message</h2>
+                <p class="section-subtitle">MovitOn guarantees blockchain-protection for every package with AI-powered compliance</p>
+            </div>
+            <div class="comparison-grid animate-on-scroll">
+                <div class="comparison-card problem">
+                    <div class="comparison-icon">😤</div>
+                    <h3>Traditional Courier</h3>
+                    <p>Expensive, slow, unpredictable. DHL, FedEx charge premium prices with hidden fees and customs delays.</p>
+                    <div class="comparison-stats">
+                        <div class="comp-stat">
+                            <span class="comp-stat-value">$150</span>
+                            <span class="comp-stat-label">Average cost</span>
+                        </div>
+                        <div class="comp-stat">
+                            <span class="comp-stat-value">7 days</span>
+                            <span class="comp-stat-label">Delivery time</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="comparison-arrow">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    <span>Switch</span>
+                </div>
+                <div class="comparison-card solution">
+                    <div class="comparison-icon">😊</div>
+                    <h3>MovitOn P2P</h3>
+                    <p>Travelers carry your packages. Blockchain escrow. AI compliance check. Real-time GPS tracking.</p>
+                    <div class="comparison-stats">
+                        <div class="comp-stat">
+                            <span class="comp-stat-value">$35</span>
+                            <span class="comp-stat-label">Average cost</span>
+                        </div>
+                        <div class="comp-stat">
+                            <span class="comp-stat-value">1 day</span>
+                            <span class="comp-stat-label">Delivery time</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Simple Process</span>
+                <h2 class="section-title">How MovitOn Works</h2>
+                <p class="section-subtitle">Three simple steps to send or deliver packages worldwide</p>
+            </div>
+            <div class="steps-container">
+                <div class="step-card animate-on-scroll">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">📝</div>
+                    <h3>Create Order</h3>
+                    <p>Set your route, upload photos of your package. AI automatically verifies customs compliance and estimates delivery.</p>
+                </div>
+                <div class="step-card animate-on-scroll">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">🤝</div>
+                    <h3>Match with Traveler</h3>
+                    <p>A verified traveler on your route accepts the order. Funds are locked in blockchain escrow until delivery.</p>
+                </div>
+                <div class="step-card animate-on-scroll">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">✅</div>
+                    <h3>Deliver & Confirm</h3>
+                    <p>QR code verification at handoff. GPS tracking throughout. Funds automatically release to courier.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="calculator-section" id="calculator">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Savings Calculator</span>
+                <h2 class="section-title">💰 How much will you save?</h2>
+                <p class="section-subtitle">Compare MovitOn prices with traditional couriers instantly</p>
+            </div>
+            <div class="calculator-wrapper">
+                <div class="calculator-card animate-on-scroll">
+                    <div class="calc-inputs">
+                        <div class="calc-input-group">
+                            <label>From</label>
+                            <select id="calc-from">
+                                <option value="dubai">Dubai, UAE</option>
+                                <option value="london">London, UK</option>
+                                <option value="nyc">New York, USA</option>
+                                <option value="singapore">Singapore</option>
+                            </select>
+                        </div>
+                        <div class="calc-arrow">→</div>
+                        <div class="calc-input-group">
+                            <label>To</label>
+                            <select id="calc-to">
+                                <option value="moscow">Moscow, Russia</option>
+                                <option value="istanbul">Istanbul, Turkey</option>
+                                <option value="bangkok">Bangkok, Thailand</option>
+                                <option value="berlin">Berlin, Germany</option>
+                            </select>
+                        </div>
+                        <div class="calc-input-group">
+                            <label>Weight</label>
+                            <select id="calc-weight">
+                                <option value="1">1 kg</option>
+                                <option value="2" selected>2 kg</option>
+                                <option value="5">5 kg</option>
+                                <option value="10">10 kg</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary calc-btn" onclick="calculateSavings()">Calculate</button>
+                    </div>
+                    <div class="calc-results" id="calc-results">
+                        <div class="calc-result-card competitor">
+                            <div class="result-logo">DHL</div>
+                            <div class="result-price">$120</div>
+                            <div class="result-time">7 days</div>
+                        </div>
+                        <div class="calc-result-card competitor">
+                            <div class="result-logo">FedEx</div>
+                            <div class="result-price">$95</div>
+                            <div class="result-time">5 days</div>
+                        </div>
+                        <div class="calc-result-card moviton">
+                            <div class="result-logo">MovitOn</div>
+                            <div class="result-price">$32</div>
+                            <div class="result-time">Same day</div>
+                        </div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="savings-badge">💥 You save: <span>$88 (73%)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="audiences" id="travelers">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Two Sides</span>
+                <h2 class="section-title">One Platform, Two Opportunities</h2>
+                <p class="section-subtitle">Whether you need to send or want to earn — MovitOn has you covered</p>
+            </div>
+            <div class="audiences-grid">
+                <div class="audience-card senders animate-on-scroll">
+                    <div class="audience-icon">📦</div>
+                    <h3>Senders</h3>
+                    <p>Need to send packages internationally? Save up to 75% compared to traditional couriers.</p>
+                    <ul class="audience-features">
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Expats sending gifts home</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Small business owners</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Urgent document delivery</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Unique items & samples</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Send a Package →</a>
+                </div>
+                <div class="audience-card travelers animate-on-scroll">
+                    <div class="audience-icon">✈️</div>
+                    <h3>Travelers</h3>
+                    <p>Flying somewhere? Earn $50-200 per trip by utilizing your unused luggage space.</p>
+                    <ul class="audience-features">
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Earn $50-200 per flight</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Use your free luggage space</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Choose convenient orders</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>Get paid instantly in crypto</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Become a Courier →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="security">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Trust & Security</span>
+                <h2 class="section-title">🔒 Blockchain Protection for Every Delivery</h2>
+                <p class="section-subtitle">Smart contracts and AI ensure your packages and payments are always secure</p>
+            </div>
+            <div class="security-features">
+                <div class="security-feature animate-on-scroll">
+                    <div class="security-icon">🔐</div>
+                    <h4>Escrow Protection</h4>
+                    <p>Funds locked in smart contract until delivery confirmed by both parties</p>
+                </div>
+                <div class="security-feature animate-on-scroll">
+                    <div class="security-icon">🤖</div>
+                    <h4>AI Compliance</h4>
+                    <p>Automatic customs rules verification for 150+ countries</p>
+                </div>
+                <div class="security-feature animate-on-scroll">
+                    <div class="security-icon">📍</div>
+                    <h4>GPS Tracking</h4>
+                    <p>Real-time location updates from pickup to delivery</p>
+                </div>
+                <div class="security-feature animate-on-scroll">
+                    <div class="security-icon">🛡️</div>
+                    <h4>Insurance</h4>
+                    <p>Up to $500 coverage included with every delivery</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tokenomics" id="token">
+        <div class="container">
+            <div class="tokenomics-grid">
+                <div class="token-chart animate-on-scroll">
+                    <svg class="donut-chart" viewBox="0 0 200 200">
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#E5E7EB" stroke-width="25"/>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#1E3A5F" stroke-width="25" stroke-dasharray="150.8 502.6" stroke-dashoffset="0" transform="rotate(-90 100 100)"/>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#2D5A87" stroke-width="25" stroke-dasharray="125.7 502.6" stroke-dashoffset="-150.8" transform="rotate(-90 100 100)"/>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#81B29A" stroke-width="25" stroke-dasharray="100.5 502.6" stroke-dashoffset="-276.5" transform="rotate(-90 100 100)"/>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#E07A5F" stroke-width="25" stroke-dasharray="75.4 502.6" stroke-dashoffset="-377" transform="rotate(-90 100 100)"/>
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#F4A261" stroke-width="25" stroke-dasharray="50.3 502.6" stroke-dashoffset="-452.4" transform="rotate(-90 100 100)"/>
+                        <text x="100" y="95" text-anchor="middle" font-family="DM Sans" font-size="14" fill="#6B7280">$MVON</text>
+                        <text x="100" y="115" text-anchor="middle" font-family="DM Sans" font-size="20" font-weight="700" fill="#1A1A2E">1B</text>
+                    </svg>
+                    <div class="token-legend">
+                        <div class="legend-item"><span class="legend-color" style="background: #1E3A5F;"></span> Presale 30%</div>
+                        <div class="legend-item"><span class="legend-color" style="background: #2D5A87;"></span> Ecosystem 25%</div>
+                        <div class="legend-item"><span class="legend-color" style="background: #81B29A;"></span> Team 20%</div>
+                        <div class="legend-item"><span class="legend-color" style="background: #E07A5F;"></span> Marketing 15%</div>
+                        <div class="legend-item"><span class="legend-color" style="background: #F4A261;"></span> Liquidity 10%</div>
+                    </div>
+                </div>
+                <div class="token-info animate-on-scroll">
+                    <h3>$MVON Token</h3>
+                    <div class="token-details">
+                        <div class="token-detail">
+                            <div class="token-detail-label">Total Supply</div>
+                            <div class="token-detail-value">1,000,000,000</div>
+                        </div>
+                        <div class="token-detail">
+                            <div class="token-detail-label">Ticker</div>
+                            <div class="token-detail-value">$MVON</div>
+                        </div>
+                        <div class="token-detail">
+                            <div class="token-detail-label">Chain</div>
+                            <div class="token-detail-value">Polygon</div>
+                        </div>
+                        <div class="token-detail">
+                            <div class="token-detail-label">Presale Price</div>
+                            <div class="token-detail-value">$0.008</div>
+                        </div>
+                        <div class="token-detail">
+                            <div class="token-detail-label">TGE Price</div>
+                            <div class="token-detail-value">$0.015</div>
+                        </div>
+                        <div class="token-detail">
+                            <div class="token-detail-label">FDV</div>
+                            <div class="token-detail-value">$15,000,000</div>
+                        </div>
+                    </div>
+                    <h4 style="font-size: 14px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;">Utility</h4>
+                    <div class="token-utilities">
+                        <span class="utility-tag">💳 Payment</span>
+                        <span class="utility-tag">📈 Staking</span>
+                        <span class="utility-tag">🗳️ Governance</span>
+                        <span class="utility-tag">⭐ Premium</span>
+                        <span class="utility-tag">💰 Cashback</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team" id="team">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Meet the Team</span>
+                <h2 class="section-title">30+ Years of Combined Experience</h2>
+                <p class="section-subtitle">Logistics, fintech, and Web3 experts building the future of delivery</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card animate-on-scroll">
+                    <div class="team-photo">👨‍💼</div>
+                    <h4>Alex Chen</h4>
+                    <div class="team-role">CEO</div>
+                    <div class="team-exp">ex-DHL, 12 years logistics</div>
+                    <div class="team-social"><a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a></div>
+                </div>
+                <div class="team-card animate-on-scroll">
+                    <div class="team-photo">👩‍💻</div>
+                    <h4>Maria Santos</h4>
+                    <div class="team-role">CTO</div>
+                    <div class="team-exp">ex-Polygon, 8 years Web3</div>
+                    <div class="team-social"><a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a></div>
+                </div>
+                <div class="team-card animate-on-scroll">
+                    <div class="team-photo">👨‍🎨</div>
+                    <h4>David Kim</h4>
+                    <div class="team-role">CMO</div>
+                    <div class="team-exp">ex-Binance, 6 years crypto</div>
+                    <div class="team-social"><a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a></div>
+                </div>
+                <div class="team-card animate-on-scroll">
+                    <div class="team-photo">👩‍🔬</div>
+                    <h4>Sarah Johnson</h4>
+                    <div class="team-role">Advisor</div>
+                    <div class="team-exp">VC Partner, Sequoia</div>
+                    <div class="team-social"><a href="#"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="roadmap">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Our Journey</span>
+                <h2 class="section-title">Roadmap</h2>
+                <p class="section-subtitle">From presale to global P2P delivery network</p>
+            </div>
+            <div class="roadmap-timeline">
+                <div class="roadmap-item completed animate-on-scroll">
+                    <div class="roadmap-quarter">Q1 2026</div>
+                    <div class="roadmap-dot"></div>
+                    <div class="roadmap-content">
+                        <ul>
+                            <li>✅ Presale Launch</li>
+                            <li>✅ MVP Development</li>
+                            <li>Whitepaper Release</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="roadmap-item active animate-on-scroll">
+                    <div class="roadmap-quarter">Q2 2026</div>
+                    <div class="roadmap-dot"></div>
+                    <div class="roadmap-content">
+                        <ul>
+                            <li>App Launch (iOS/Android)</li>
+                            <li>Token Listing (CEX)</li>
+                            <li>5,000 Users</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="roadmap-item animate-on-scroll">
+                    <div class="roadmap-quarter">Q3 2026</div>
+                    <div class="roadmap-dot"></div>
+                    <div class="roadmap-content">
+                        <ul>
+                            <li>10 Countries Coverage</li>
+                            <li>B2B API Launch</li>
+                            <li>30,000 Users</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="roadmap-item animate-on-scroll">
+                    <div class="roadmap-quarter">Q4 2026</div>
+                    <div class="roadmap-dot"></div>
+                    <div class="roadmap-content">
+                        <ul>
+                            <li>MovitBox IoT Device</li>
+                            <li>100,000 Users</li>
+                            <li>DEX Listing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Questions</span>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item active">
+                    <button class="faq-question">How does MovitOn ensure package safety?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+                    <div class="faq-answer"><div class="faq-answer-content">MovitOn uses blockchain escrow, where funds are locked until delivery is confirmed. All travelers are verified with KYC, packages are insured up to $500, and GPS tracking provides real-time visibility throughout the journey.</div></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">What can I send with MovitOn?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+                    <div class="faq-answer"><div class="faq-answer-content">You can send documents, electronics, clothing, gifts, samples, and most personal items. Our AI compliance system automatically checks customs regulations for 150+ countries.</div></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">How much can I earn as a traveler?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+                    <div class="faq-answer"><div class="faq-answer-content">Travelers typically earn $50-200 per trip depending on route popularity and package size. Popular routes offer higher payouts.</div></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">What is $MVON token used for?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+                    <div class="faq-answer"><div class="faq-answer-content">$MVON is the utility token for discounted fees (up to 20% off), staking rewards, governance voting, premium features, and cashback on transactions.</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">Movit<span>On</span></div>
+                    <p class="footer-desc">The future of P2P delivery. Blockchain-secured, AI-powered, community-driven.</p>
+                    <div class="footer-social">
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+                        <a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>Token</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Tokenomics</a></li>
+                        <li><a href="#">How to Buy</a></li>
+                        <li><a href="#">Whitepaper</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Risk Disclaimer</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-copy">VAERTECH Solution FZCO, Dubai, UAE · © 2026 MovitOn. All rights reserved.</div>
+                <div class="footer-legal"><a href="#">partnerships@moviton.io</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="sticky-bar" id="sticky-bar">
+        <div class="container">
+            <div class="sticky-content">
+                <div class="sticky-price">
+                    <span class="sticky-current">$0.008 USDT</span>
+                    <span class="sticky-old">$0.015 USDT</span>
+                    <span class="sticky-discount">-46%</span>
+                </div>
+                <div class="sticky-timer">Price increases in <strong id="sticky-timer">06:11:43</strong></div>
+                <div class="sticky-cta">
+                    <button class="btn btn-wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M22 10H18C16.8954 10 16 10.8954 16 12C16 13.1046 16.8954 14 18 14H22"/></svg>Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const header = document.getElementById('header');
+        const stickyBar = document.getElementById('sticky-bar');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 100);
+            stickyBar.classList.toggle('visible', window.scrollY > 600);
+        });
+
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const wasActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!wasActive) item.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.payment-method').forEach(m => {
+            m.addEventListener('click', () => {
+                document.querySelectorAll('.payment-method').forEach(x => x.classList.remove('active'));
+                m.classList.add('active');
+            });
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+        function updateTimer() {
+            const end = new Date(Date.now() + 6*24*60*60*1000 + 11*60*60*1000 + 43*60*1000);
+            const diff = end - new Date();
+            const d = Math.floor(diff / 86400000);
+            const h = Math.floor((diff % 86400000) / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            document.getElementById('days').textContent = String(d).padStart(2, '0');
+            document.getElementById('hours').textContent = String(h).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+            document.getElementById('sticky-timer').textContent = `${String(d).padStart(2, '0')}:${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        function calculateSavings() {
+            document.getElementById('calc-results').style.opacity = '0.5';
+            setTimeout(() => document.getElementById('calc-results').style.opacity = '1', 300);
+        }
+
+        document.querySelectorAll('.btn-wallet').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const original = btn.innerHTML;
+                btn.innerHTML = '<svg class="animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10" stroke-opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round"/></svg> Connecting...';
+                btn.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.style.pointerEvents = 'auto';
+                    alert('Wallet connection would be implemented here with Web3 integration (MetaMask, WalletConnect, etc.)');
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
